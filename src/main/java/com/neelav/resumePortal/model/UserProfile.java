@@ -1,6 +1,7 @@
 package com.neelav.resumePortal.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,13 @@ public class UserProfile {
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name="job_id")
     private List<Job> jobs;
+
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name="education_id")
+    private List<Education> educations;
+
+    @ElementCollection(targetClass = String.class)
+    private List<String> skills = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -104,7 +112,21 @@ public class UserProfile {
         this.jobs = jobs;
     }
 
+    public List<Education> getEducations() {
+        return educations;
+    }
 
+    public void setEducations(List<Education> educations) {
+        this.educations = educations;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
 
     @Override
     public String toString() {

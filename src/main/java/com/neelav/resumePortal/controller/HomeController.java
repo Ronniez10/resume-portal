@@ -1,5 +1,6 @@
 package com.neelav.resumePortal.controller;
 
+import com.neelav.resumePortal.model.Education;
 import com.neelav.resumePortal.model.Job;
 import com.neelav.resumePortal.model.User;
 import com.neelav.resumePortal.model.UserProfile;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -24,23 +27,22 @@ public class HomeController {
     @GetMapping("/")
     public String home()
     {
-        UserProfile profile1 = new UserProfile();
-        profile1.setId(1);
-        profile1.setUserName("Einstein");
-        profile1.setTheme(1);
-        profile1.setFirstName("Albert");
-        profile1.setLastName("Einstein");
-        profile1.setDesignation("Scientist");
-        profile1.setSummary("History Changer");
-        profile1.setEmail("einstein@gmail.com");
-        profile1.setPhone("1111");
+        Optional<UserProfile> neelavOptional = userProfileRepository.findByUserName("Neelav");
+
+        neelavOptional.orElseThrow(()-> new RuntimeException("No User Found with : Neelav"));
+
+        UserProfile neelav = neelavOptional.get();
 
         Job job1 = new Job();
         job1.setId(1);
         job1.setCompany("Company 1");
         job1.setDesignation("Software Engineer");
         job1.setStartDate(LocalDate.of(2020,1,1));
-        job1.setEndDate(LocalDate.of(2023,1,1));
+        //job1.setEndDate(LocalDate.of(2023,1,1));
+        job1.setCurrentJob(true);
+        job1.getResponsibilities().add("Create Resume Portal");
+        job1.getResponsibilities().add("Create Simple Payment App");
+        job1.getResponsibilities().add("Create Ecommerce App");
 
         Job job2 = new Job();
         job2.setId(2);
@@ -48,10 +50,39 @@ public class HomeController {
         job2.setDesignation("Lead Software Engineer");
         job2.setStartDate(LocalDate.of(2019,1,1));
         job2.setEndDate(LocalDate.of(2019,12,31));
+        job2.getResponsibilities().add("Create Resume Portal");
+        job2.getResponsibilities().add("Create Simple Payment App");
+        job2.getResponsibilities().add("Create Ecommerce App");
 
-        profile1.setJobs(Arrays.asList(job1,job2));
+        neelav.getJobs().clear();
+        neelav.getJobs().add(job1);
+        neelav.getJobs().add(job2);
 
-        userProfileRepository.save(profile1);
+        Education e1=new Education();
+        e1.setCollege("Awesome College");
+        e1.setStartDate(LocalDate.of(2019,1,1));
+        e1.setEndDate(LocalDate.of(2019,12,31));
+        e1.setQualification("Useless Degree");
+        e1.setSummary("Studied a Lot");
+
+        Education e2=new Education();
+        e2.setCollege("Awesome College");
+        e2.setStartDate(LocalDate.of(2019,1,1));
+        e2.setEndDate(LocalDate.of(2019,12,31));
+        e2.setQualification("Useless Degree");
+        e2.setSummary("Studied a Lot");
+
+        neelav.getEducations().clear();
+        neelav.getEducations().add(e1);
+        neelav.getEducations().add(e2);
+
+        neelav.getSkills().clear();
+        neelav.getSkills().add("Java Buff");
+        neelav.getSkills().add("Spring Buff");
+        neelav.getSkills().add("Footballer");
+
+
+        userProfileRepository.save(neelav);
         return "profile";
     }
 
