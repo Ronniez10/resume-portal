@@ -1,6 +1,6 @@
 insert into user (id,user_name,password,active,roles) values
-(1,'foo','foo',true,'USER'),
-(2,'bar','bar',true,'USER');
+(1,'Neelav','1234',true,'USER'),
+(2,'Messi','1234',true,'USER');
 
 
 insert into user_profile (id,user_name,first_Name,last_Name,email,phone,designation,theme,summary) values

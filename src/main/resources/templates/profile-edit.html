@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+</head>
+<body>
+    <h1 th:text ="${userId}  + '\'s Profile' "></h1>
+
+    <div class="container">
+
+        <form action="#" th:action="@{/edit}" th:object="${userProfile}" method="post">
+
+
+            <div class="form-group">
+                <label >Select your Profile Theme</label>
+                    <select th:field="*{theme}" class="form-control">
+                        <option th:value="'1'" >1st  Theme</option>
+                        <option th:value="'2'" >2nd  Theme</option>
+                    </select>
+            </div>
+
+            <div class="form-group">
+                <label >First Name</label>
+                <input  class="form-control" th:field="*{firstName}"  placeholder="Enter First Name">
+            </div>
+
+            <div class="form-group">
+                <label >Last Name</label>
+                <input  class="form-control"  th:field="*{lastName}"  placeholder="Enter Last Name">
+
+            </div>
+
+
+            <div class="form-group">
+                <label >Email address</label>
+                <input type="email" class="form-control" th:field="*{email}"  aria-describedby="emailHelp" placeholder="Enter email">
+                <small  class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+
+            <div class="form-group">
+                <label >Phone Number</label>
+                <input  class="form-control"  th:field="*{phone}"  placeholder="Enter phone Number">
+                <small  class="form-text text-muted">We'll never share your Phone Number with anyone else.</small>
+            </div>
+
+            <div class="form-group">
+                <label >Designation</label>
+                <input  class="form-control"  th:field="*{designation}"  placeholder="Enter Designation">
+            </div>
+
+            <div class="form-group">
+                <label>Summary</label>
+                <textarea class="form-control" th:field="*{summary}"></textarea>
+            </div>
+
+
+            <h3>Jobs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Designation</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Current Job ?</th>
+                        <th>Delete Job ?</th>
+                    </tr>
+                </thead>
+                <tr th:each=" job,stat : *{jobs}">
+                    <td><input  class="form-control"  th:field="*{jobs[__${stat.index}__].company}"  ></td>
+                    <td><input  class="form-control"  th:field="*{jobs[__${stat.index}__].designation}"  ></td>
+                    <td><input  type="date" class="form-control"  th:field="*{jobs[__${stat.index}__].startDate}"  ></td>
+                    <td><input  type="date" class="form-control"  th:field="*{jobs[__${stat.index}__].endDate}"  ></td>
+                    <td><input  type="checkbox" class="form-control"  th:field="*{jobs[__${stat.index}__].currentJob}"  ></td>
+                    <td><a th:href="@{'./delete?type=job&index='+${stat.index}}" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-remove"></span> Delete Job
+                    </a></td>
+                </tr>
+            </table>
+            <p><a href="./edit?add=job" class="btn btn-secondary"/>Add Job</p>
+
+
+            <h3>Education</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>College</th>
+                    <th>Qualification</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Summary </th>
+                    <th>Delete Education</th>
+                </tr>
+                </thead>
+                <tr th:each=" education,stat : *{educations}">
+                    <td><input  class="form-control"  th:field="*{educations[__${stat.index}__].college}"  ></td>
+                    <td><input  class="form-control"  th:field="*{educations[__${stat.index}__].qualification}"  ></td>
+                    <td><input  type="date" class="form-control"  th:field="*{educations[__${stat.index}__].startDate}"  ></td>
+                    <td><input  type="date" class="form-control"  th:field="*{educations[__${stat.index}__].endDate}"  ></td>
+                    <td>
+                        <input  class="form-control"  th:field="*{educations[__${stat.index}__].summary}"  >
+                    </td>
+                    <td><a th:href="@{'./delete?type=education&index='+${stat.index}}" class="btn btn-info btn-lg">
+                        <span class="glyphicon glyphicon-remove"></span> Delete Education
+                    </a></td>
+                </tr>
+            </table>
+
+            <p><a href="./edit?add=education" class="btn btn-secondary"/>Add Education</p>
+
+            <h3>Skills</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Skill</th>
+                    <th>Delete Skill</th>
+                </tr>
+                </thead>
+                    <tr th:each=" skill,stat : *{skills}">
+                        <td><input  class="form-control"  th:field="*{skills[__${stat.index}__]}"  ></td>
+                        <td><a th:href="@{'./delete?type=skill&index='+${stat.index}}" class="btn btn-info btn-lg">
+                            <span class="glyphicon glyphicon-remove"></span> Delete Skill
+                        </a></td>
+                    </tr>
+            </table>
+
+            <p><a href="./edit?add=skill" class="btn btn-secondary"/>Add Skill</p>
+
+
+
+
+
+            <input type="submit" value="Submit Changes" class="btn btn-primary"></input>
+
+
+        </form>
+    </div>
+</body>
+</html>
